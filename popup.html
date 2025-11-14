@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LinkedIn Post Analytics</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      width: 320px;
+      font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #0a66c2 0%, #004182 100%);
+      color: white;
+    }
+
+    .container {
+      padding: 20px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .logo {
+      width: 64px;
+      height: 64px;
+      background: white;
+      border-radius: 16px;
+      margin: 0 auto 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+    }
+
+    h1 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .version {
+      font-size: 12px;
+      opacity: 0.8;
+    }
+
+    .section {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+      backdrop-filter: blur(10px);
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .section-content {
+      font-size: 13px;
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+
+    .instructions {
+      list-style: none;
+      padding: 0;
+    }
+
+    .instructions li {
+      padding: 6px 0;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .instructions li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      font-weight: bold;
+    }
+
+    .features {
+      list-style: none;
+      padding: 0;
+    }
+
+    .features li {
+      padding: 4px 0;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .features li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      font-weight: bold;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 11px;
+      opacity: 0.7;
+      margin-top: 16px;
+    }
+
+    .status {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 12px;
+      text-align: center;
+      margin-top: 12px;
+    }
+
+    .status.active {
+      background: rgba(76, 175, 80, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">📊</div>
+      <h1>LinkedIn Post Analytics</h1>
+      <div class="version">Version 1.0.0</div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">
+        📋 Comment utiliser
+      </div>
+      <div class="section-content">
+        <ol class="instructions">
+          <li>Visitez un profil LinkedIn</li>
+          <li>Cliquez sur le bouton "Générer PDF Analytics"</li>
+          <li>Attendez le scraping des posts</li>
+          <li>Téléchargez votre rapport PDF</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">
+        ✨ Fonctionnalités
+      </div>
+      <div class="section-content">
+        <ul class="features">
+          <li>Scraping automatique des posts</li>
+          <li>Analyse des réactions, commentaires</li>
+          <li>Graphiques de performance</li>
+          <li>Identification des meilleurs moments</li>
+          <li>Export PDF complet</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="status active">
+      ✓ Extension active et prête
+    </div>
+
+    <div class="footer">
+      Développé avec ❤️ pour LinkedIn Analytics
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+# Extension packaging
+*.crx
+*.pem
+*.zip
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+
+# Temporary files
+*.tmp
+temp/
+tmp/
+
+# Node modules (si utilisé pour le dev)
+node_modules/
+
+# Build files
+dist/
+build/
