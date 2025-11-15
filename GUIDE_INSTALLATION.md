@@ -42,7 +42,7 @@ python generate_icons.py
 
 4. **Vérifiez l'installation**
    - L'extension devrait apparaître dans la liste
-   - Vous devriez voir "LinkedIn Post Analytics"
+   - Vous devriez voir "NoteLinkedinLM"
 
 ## Étape 3 : Utiliser l'extension
 

@@ -1,4 +1,4 @@
-# ✅ Projet Terminé - Extension LinkedIn Post Analytics
+# ✅ Projet Terminé - Extension NoteLinkedinLM
 
 ## 🎉 Félicitations !
 

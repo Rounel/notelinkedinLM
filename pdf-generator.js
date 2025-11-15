@@ -5,8 +5,8 @@
 async function initializePDFEnvironment() {
   console.log('🔧 Initialisation de l\'environnement PDF...');
 
-  // Vérifier si déjà initialisé
-  if (window.__generateLinkedInPDF__) {
+  // Vérifier si déjà initialisé (vérifier si les scripts sont déjà injectés)
+  if (document.getElementById('jspdf-library') && document.getElementById('pdf-page-context')) {
     console.log('✓ Environnement PDF déjà initialisé');
     return true;
   }
@@ -20,19 +20,11 @@ async function initializePDFEnvironment() {
       console.log(`✓ Script ${scriptsLoaded}/${totalScripts} chargé`);
 
       if (scriptsLoaded === totalScripts) {
-        // Attendre que la fonction soit disponible
-        let attempts = 0;
-        const checkFunction = setInterval(() => {
-          attempts++;
-          if (window.__generateLinkedInPDF__) {
-            clearInterval(checkFunction);
-            console.log('✅ Environnement PDF prêt !');
-            resolve(true);
-          } else if (attempts > 30) {
-            clearInterval(checkFunction);
-            reject(new Error('Fonction de génération PDF non disponible'));
-          }
-        }, 100);
+        // Attendre un peu que les scripts s'initialisent
+        setTimeout(() => {
+          console.log('✅ Environnement PDF prêt !');
+          resolve(true);
+        }, 500);
       }
     };
 
@@ -214,9 +206,9 @@ async function generatePDFReport(profile, posts) {
     const analytics = analyzePostsData(posts);
     console.log('Analytics calculés:', analytics.totalPosts, 'posts analysés');
 
-    // Appeler la fonction de génération dans le contexte de la page
+    // Appeler la fonction de génération dans le contexte de la page via message passing
     console.log('Appel de la fonction de génération PDF...');
-    const result = await window.__generateLinkedInPDF__(profile, posts, analytics);
+    const result = await callPageContextPDF(profile, posts, analytics);
 
     if (!result.success) {
       throw new Error(result.error || 'Erreur génération PDF');
@@ -229,6 +221,44 @@ async function generatePDFReport(profile, posts) {
     console.error('Erreur lors de la génération du PDF:', error);
     return { success: false, error: error.message };
   }
+}
+
+// Appeler la fonction PDF dans le contexte de la page via custom events
+function callPageContextPDF(profile, posts, analytics) {
+  return new Promise((resolve, reject) => {
+    // Créer un ID unique pour cette requête
+    const requestId = 'pdf_' + Date.now() + '_' + Math.random();
+
+    // Écouter la réponse
+    const responseHandler = (event) => {
+      if (event.detail.requestId === requestId) {
+        window.removeEventListener('__pdfGenerationResponse__', responseHandler);
+        if (event.detail.success) {
+          resolve(event.detail);
+        } else {
+          reject(new Error(event.detail.error || 'Erreur génération PDF'));
+        }
+      }
+    };
+
+    window.addEventListener('__pdfGenerationResponse__', responseHandler);
+
+    // Timeout après 30 secondes
+    setTimeout(() => {
+      window.removeEventListener('__pdfGenerationResponse__', responseHandler);
+      reject(new Error('Timeout lors de la génération du PDF'));
+    }, 30000);
+
+    // Envoyer la requête au contexte de la page
+    window.dispatchEvent(new CustomEvent('__generatePDFRequest__', {
+      detail: {
+        requestId,
+        profile,
+        posts,
+        analytics
+      }
+    }));
+  });
 }
 
 // Exporter les fonctions

@@ -1,4 +1,4 @@
-# 📊 LinkedIn Post Analytics - Extension Chrome
+# 📊 NoteLinkedinLM - Extension Chrome
 
 Une extension Chrome puissante pour scraper et analyser les posts LinkedIn d'un profil, générer des statistiques détaillées et créer un rapport PDF complet avec analytics.
 

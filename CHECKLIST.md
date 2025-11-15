@@ -37,7 +37,7 @@ Utilisez cette checklist pour vous assurer que l'extension est correctement inst
 ### Test 1 : Popup de l'extension
 - [ ] Cliquez sur l'icône de l'extension dans la barre Chrome
 - [ ] Le popup s'affiche avec le design bleu LinkedIn
-- [ ] Le titre "LinkedIn Post Analytics" est visible
+- [ ] Le titre "NoteLinkedinLM" est visible
 - [ ] La version "1.0.0" est affichée
 - [ ] Les sections sont visibles et bien formatées
 

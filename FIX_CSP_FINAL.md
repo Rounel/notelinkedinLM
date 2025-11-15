@@ -133,7 +133,7 @@ async function generatePDFReport(profile, posts) {
 ### 1. Recharger l'extension
 
 ```
-chrome://extensions/ → LinkedIn Post Analytics → Recharger (↻)
+chrome://extensions/ → NoteLinkedinLM → Recharger (↻)
 ```
 
 ### 2. Tester sur LinkedIn

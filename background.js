@@ -3,7 +3,7 @@
 
 // Ce service worker peut être utilisé pour des fonctionnalités futures
 chrome.runtime.onInstalled.addListener(() => {
-  console.log('LinkedIn Post Analytics Extension installed');
+  console.log('NoteLinkedinLM Extension installed');
 });
 
 // Listener pour messages futurs (optionnel)

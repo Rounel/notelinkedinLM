@@ -150,7 +150,7 @@ async function scrapeAllPosts() {
       newPostsFound++;
 
       try {
-        const post = extractPostData(postElement);
+        const post = await extractPostData(postElement);
         if (post) {
           posts.push(post);
           console.log(`Post ${posts.length} scraped`);
@@ -182,11 +182,71 @@ async function scrapeAllPosts() {
 }
 
 // Extraire les données d'un post
-function extractPostData(postElement) {
+async function extractPostData(postElement) {
   try {
-    // Texte du post
-    const textElement = postElement.querySelector('.feed-shared-update-v2__description .update-components-text .tvm-parent-container span[dir="ltr"]');
-    const text = textElement?.innerHTML;
+    // Bouton voir plus - essayer plusieurs sélecteurs possibles
+    const seeMoreSelectors = [
+      '.feed-shared-inline-show-more-text__see-more-less-toggle',
+      'button[aria-label*="voir plus"]',
+      'button[aria-label*="see more"]',
+      '.feed-shared-inline-show-more-text button',
+      'button.feed-shared-inline-show-more-text__button',
+      'button.see-more',
+      '.inline-show-more-text button'
+    ];
+
+    let seeMoreButton = null;
+    for (const selector of seeMoreSelectors) {
+      seeMoreButton = postElement.querySelector(selector);
+      if (seeMoreButton && seeMoreButton.offsetParent !== null) {
+        console.log("✓ Bouton 'voir plus' trouvé:", selector);
+        break;
+      }
+    }
+
+    if (seeMoreButton) {
+      try {
+        // Scroller jusqu'au bouton pour s'assurer qu'il est visible
+        seeMoreButton.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        await wait(200);
+
+        // Cliquer sur le bouton
+        seeMoreButton.click();
+        console.log("✓ Bouton 'voir plus' cliqué");
+
+        // Attendre que le texte complet se charge
+        await wait(400);
+      } catch (clickError) {
+        console.warn("⚠ Erreur clic 'voir plus':", clickError);
+      }
+    }
+
+    // Texte du post - essayer plusieurs sélecteurs
+    let text = '';
+    const textSelectors = [
+      '.feed-shared-update-v2__description',
+      '.feed-shared-text__text-view',
+      '.feed-shared-text',
+      '[data-test-id="main-feed-activity-card__commentary"]',
+      '.update-components-text',
+      '.feed-shared-inline-show-more-text'
+    ];
+
+    for (const selector of textSelectors) {
+      const textElement = postElement.querySelector(selector);
+      if (textElement) {
+        text = textElement.textContent.trim();
+        if (text && text.length > 0) {
+          break;
+        }
+      }
+    }
+
+    // Si aucun texte trouvé, essayer de récupérer depuis les spans
+    if (!text) {
+      const spans = postElement.querySelectorAll('.feed-shared-update-v2__description span, .feed-shared-text span');
+      text = Array.from(spans).map(s => s.textContent).join(' ').trim();
+    }
 
     // Date du post
     const dateElement = postElement.querySelector('.feed-shared-actor__sub-description time, time');

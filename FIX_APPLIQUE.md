@@ -120,7 +120,7 @@ chrome.runtime.onInstalled.addListener(() => {
 ### 1. Recharger l'extension
 ```bash
 1. Ouvrez: chrome://extensions/
-2. Trouvez "LinkedIn Post Analytics"
+2. Trouvez "NoteLinkedinLM"
 3. Cliquez sur le bouton ↻ (Recharger)
 ```
 

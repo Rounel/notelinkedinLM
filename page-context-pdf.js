@@ -25,7 +25,7 @@
   }
 
   // Fonction pour générer le PDF
-  window.__generateLinkedInPDF__ = async function(profileData, postsData, analyticsData) {
+  async function generatePDF(profileData, postsData, analyticsData) {
     console.log('[Page Context] Génération du PDF...', {
       profile: profileData.name,
       posts: postsData.length
@@ -204,8 +204,38 @@
       console.error('[Page Context] Erreur génération PDF:', error);
       return { success: false, error: error.message };
     }
-  };
+  }
 
-  console.log('[Page Context] Fonction __generateLinkedInPDF__ prête');
+  // Écouter les requêtes de génération PDF depuis le content script
+  window.addEventListener('__generatePDFRequest__', async (event) => {
+    console.log('[Page Context] Requête PDF reçue:', event.detail.requestId);
+
+    try {
+      const result = await generatePDF(
+        event.detail.profile,
+        event.detail.posts,
+        event.detail.analytics
+      );
+
+      // Envoyer la réponse au content script
+      window.dispatchEvent(new CustomEvent('__pdfGenerationResponse__', {
+        detail: {
+          requestId: event.detail.requestId,
+          ...result
+        }
+      }));
+    } catch (error) {
+      console.error('[Page Context] Erreur lors de la génération:', error);
+      window.dispatchEvent(new CustomEvent('__pdfGenerationResponse__', {
+        detail: {
+          requestId: event.detail.requestId,
+          success: false,
+          error: error.message
+        }
+      }));
+    }
+  });
+
+  console.log('[Page Context] Écouteur de requêtes PDF prêt');
 
 })();

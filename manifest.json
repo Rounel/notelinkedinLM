@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "LinkedIn Post Analytics",
+  "name": "NoteLinkedinLM",
   "version": "1.0.0",
   "description": "Scrape et analyse les posts LinkedIn d'un profil avec génération de PDF analytics",
   "permissions": [
